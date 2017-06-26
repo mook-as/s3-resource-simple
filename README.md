@@ -11,7 +11,7 @@ resource_types:
 - name: <resource type name>
   type: docker-image
   source:
-    repository: 18fgsa/s3-resource-simple
+    repository: making/s3-resource-simple
 resources:
 - name: <resource name>
   type: <resource type name>
@@ -22,6 +22,32 @@ resources:
     path: [<optional>, use to sync to a specific path of the bucket instead of root of bucket]
     options: [<optional, see note below>]
     region: <optional, see below>
+jobs:
+- name: <job name>
+  plan:
+  - <some Resource or Task that outputs files>
+  - put: <resource name>
+```
+
+In case of [minio](https://www.minio.io/),
+
+```yaml
+resource_types:
+- name: <resource type name>
+  type: docker-image
+  source:
+    repository: making/s3-resource-simple
+resources:
+- name: <resource name>
+  type: <resource type name>
+  source:
+    access_key_id: {{minio-access-key}}
+    secret_access_key: {{minio-secret-key}}
+    bucket: {{minio-bucket}}
+    endpoint: {{minio-endpoint-url}}
+    use_v4: true
+    path: [<optional>, use to sync to a specific path of the bucket instead of root of bucket]
+    options: [<optional, see note below>]
 jobs:
 - name: <job name>
   plan:
